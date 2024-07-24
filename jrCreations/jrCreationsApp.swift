@@ -17,11 +17,15 @@ import SwiftUI
 
 @main
 struct jrCreationsApp: App {
+    
+    @StateObject var listViewModel: ListViewModel = ListViewModel()
+    
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 ListViews()
             }
+            .environmentObject(listViewModel)
         }
     }
 }

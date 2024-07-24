@@ -9,17 +9,16 @@ import SwiftUI
 
 struct ListViews: View {
     
-    @State var items: [String] = [
-        "How to make seafood alfrado.",
-        "Need help with ChatGPT!!!",
-        "Lets discuss Kendrick vs Drake"
+    @EnvironmentObject var listViewModel: ListViewModel
     
-    ]
     var body: some View {
         List {
-            ForEach(items, id: \.self) { items in
-                ListRowView(title: items)
+            ForEach(listViewModel.items) { items in
+            ListRowView(item: items)
+                
             }
+            .onDelete(perform: listViewModel.deleteItem)
+            .onMove(perform: listViewModel.moveItem)
         }
         .listStyle(DefaultListStyle())
         .navigationTitle("Bulletin Board 📯")
@@ -32,8 +31,10 @@ struct ListViews: View {
 }
 
 #Preview {
-    NavigationView {
+    @StateObject var listViewModel: ListViewModel = ListViewModel()
+    return NavigationView {
         ListViews()
+            .environmentObject(listViewModel)
     }
 }
 
